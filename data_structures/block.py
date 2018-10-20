@@ -203,41 +203,41 @@ def hash_SHA(byte_string):
     """
 
     return hexlify(sha(byte_string).digest())
-    
+
 
 
 def int_to_bytes(val):
     """
-    Given an integer i, return it in byte form, as an unsiged int 
-    Will only work for positive ints. 
+    Given an integer i, return it in byte form, as an unsiged int
+    Will only work for positive ints.
     Max value accepted is 2^32 - 1 or 4,294,967,295
-    Basically any valid positive 32 bit int will work 
-    
-    :param val: integer i 
+    Basically any valid positive 32 bit int will work
+
+    :param val: integer i
     :return: integer i in byte form as unsigned int.
     """
     return pack('I', val)
 
 def short_to_bytes(val):
     """
-    Given an short i, return it in byte form, as an unsiged short 
-    Will only work for positive shorts. 
+    Given an short i, return it in byte form, as an unsiged short
+    Will only work for positive shorts.
     Max value accepted is 2^8 - 1 or 65535
-    Basically any valid positive 8 bit int will work 
-    
-    :param val: short i 
+    Basically any valid positive 8 bit int will work
+
+    :param val: short i
     :return: short i in byte form as unsigned short.
     """
     return pack('H', val)
 
 def long_to_bytes(val):
     """
-    Given an long i, return it in byte form, as an unsiged long 
-    Will only work for positive longs. 
+    Given an long i, return it in byte form, as an unsiged long
+    Will only work for positive longs.
     Max value accepted is 2^32 - 1 or 4,294,967,295
-    Basically any valid positive 8 bit int will work 
-    
-    :param val: long i 
+    Basically any valid positive 8 bit int will work
+
+    :param val: long i
     :return: long i in byte form as unsigned long.
     """
     return pack('L', val)
@@ -255,7 +255,7 @@ def less_than_target(byte_string, target):
     This funciton determines which of a byte string holding an integer, or a target integer is lesser.
 
     :param1 byte_string: a byte string intended to hold an integer
-    :param2 targer: an integer, a target to which byte_string is compared  
+    :param2 targer: an integer, a target to which byte_string is compared
     :returns: a boolean, true if the byte_string integer is less than target. false otherwise
     """
     return toInt(byte_string) < target
@@ -296,3 +296,12 @@ def log_target_bytes(base10_number):
     :return: The log base 10 of the unputed number as bytes
     """
     return short_to_bytes(int(math.log10(base10_number)))
+
+
+def slice_target(block_header):
+    """
+    Returns the bytestring of the (short) target at index 68 to 69
+    **when slicing you need to subtract 1 from the lower bound to include the
+      first byte you want
+    """
+    return block_header[67:69]

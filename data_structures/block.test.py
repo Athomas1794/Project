@@ -101,44 +101,44 @@ class TestBlock(unittest.TestCase):
         """
         Tests out values for the int_to_bytes function. Tests out max values as well
         """
-        byte1 = int_to_bytes(1) 
+        byte1 = int_to_bytes(1)
         #if we unpack the bytes as a unsigned integer, we should get the same value
         self.assertEqual(unpack('I', byte1)[0], 1)
         #test out 0
-        byte0 = int_to_bytes(0) 
+        byte0 = int_to_bytes(0)
         self.assertEqual(unpack('I', byte0)[0], 0)
         #test out max signed 32 bit int
         byte_max_32 = int_to_bytes(2**31 -1)
         self.assertEqual(unpack('I', byte_max_32)[0], 2**31 -1)
-        #test out max unsigned 32 bit int 
+        #test out max unsigned 32 bit int
         byte_max_u32 = int_to_bytes(2**32 -1)
         self.assertEqual(unpack('I', byte_max_u32)[0], 2**32 -1)
-     
+
     def test_short_to_bytes(self):
         """
         Tests out values for the short_to_bytes function. Tests out max values as well
         """
-        byte1 = short_to_bytes(1) 
+        byte1 = short_to_bytes(1)
         #if we unpack the bytes as a unsigned integer, we should get the same value
         self.assertEqual(unpack('H', byte1)[0], 1)
         #test out 0
-        byte0 = short_to_bytes(0) 
+        byte0 = short_to_bytes(0)
         self.assertEqual(unpack('H', byte0)[0], 0)
-        #test out max unsigned 32 bit int 
+        #test out max unsigned 32 bit int
         byte_max_short = short_to_bytes(2**8 -1)
         self.assertEqual(unpack('H', byte_max_short)[0], 2**8 -1)
-       
+
     def test_long_to_bytes(self):
         """
         Tests out values for the long_to_bytes function. Tests out max values as well
         """
-        byte1 = long_to_bytes(1) 
+        byte1 = long_to_bytes(1)
         #if we unpack the bytes as a unsigned integer, we should get the same value
         self.assertEqual(unpack('L', byte1)[0], 1)
         #test out 0
-        byte0 = long_to_bytes(0) 
+        byte0 = long_to_bytes(0)
         self.assertEqual(unpack('L', byte0)[0], 0)
-        #test out max unsigned 32 bit int 
+        #test out max unsigned 32 bit int
         byte_max_long = long_to_bytes(2**32 -1)
         self.assertEqual(unpack('L', byte_max_long)[0], 2**32 -1)
 
@@ -200,6 +200,18 @@ class TestBlock(unittest.TestCase):
         print("Reverting to get log: ", int.from_bytes(byte_form,byteorder = 'little'))
         self.assertEqual(convert, pow(10,int.from_bytes(byte_form,byteorder = 'little')))
 
-        
+    def test_slice_target(self):
+        #create random bytestring to test
+        block_header = b'\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x06\x07\x08\x09'
+        self.assertIsInstance(block_header, bytes)
+        target = slice_target(block_header)
+        self.assertIsInstance(target, bytes)
+        #we expect \x04 \x00
+        print("TARGET IS: ")
+        print(target)
+        self.assertEqual(target, b'\x04\x00')
+
+
+
 if __name__ == '__main__':
     unittest.main()
